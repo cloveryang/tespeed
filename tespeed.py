@@ -77,7 +77,7 @@ class CallbackStringIO(StringIO):
 
 class TeSpeed:
     def __init__(self, server="", num_top=0, server_count=3, store=False, suppress=False, unit=False, chunk_size=10240,
-                 download_tests=15, upload_tests=10, server_list_file=False):
+                 download_tests=15, upload_tests=10, local_server_list=False):
 
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -109,7 +109,7 @@ class TeSpeed:
         self.download_tests = download_tests
         self.upload_tests = upload_tests
 
-        self.local_server_list = server_list_file
+        self.local_server_list = local_server_list
 
         if unit:
             self.units = "MiB"
@@ -698,7 +698,7 @@ def main(args):
             chunk_size=args.chunksize,
             download_tests=args.downloadtests,
             upload_tests=args.uploadtests,
-            server_list_file=args.serverlist and True or False
+            server_list_file=args.serverlist
         )
     except (KeyboardInterrupt, SystemExit):
         print_debug("\nTesting stopped.\n")
@@ -722,7 +722,7 @@ if __name__ == '__main__':
     parser.add_argument('-n', '--server-count', dest='servercount', nargs='?', default=1, const=1,
                         help='Specify how many different servers should be used in paralel. (Default: 1) (Increase it '
                              'for >100Mbit testing.)')
-    parser.add_argument('-sl', '--server-list', dest='serverlist', nargs='?', type=str,
+    parser.add_argument('-sl', '--server-list', dest='serverlist', nargs='?', default=False, type=str,
                         help='Specify local server list')
 
     parser.add_argument('-p', '--proxy', dest='use_proxy', type=int, nargs='?', const=4,
